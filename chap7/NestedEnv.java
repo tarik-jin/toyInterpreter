@@ -3,6 +3,7 @@ package chap7;
 import java.util.HashMap;
 
 import chap6.Environment;
+import chap7.FuncEvaluator.EnvEx;
 
 public class NestedEnv implements Environment {
 	protected HashMap<String, Object> values;

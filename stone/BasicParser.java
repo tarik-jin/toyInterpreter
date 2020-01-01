@@ -49,7 +49,6 @@ public class BasicParser {
 		
 		operators.add("=", 1, Operators.RIGHT);
 		operators.add("==", 2, Operators.LEFT);
-		operators.add(">=", 2, Operators.LEFT);
 		operators.add(">", 2, Operators.LEFT);
 		operators.add("<", 2, Operators.LEFT);
 		operators.add("+", 3, Operators.LEFT);
