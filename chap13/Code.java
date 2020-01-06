@@ -5,7 +5,7 @@ public class Code {
 	protected int codeSize;
 	protected int numOfStrings;
 	protected int nextReg;
-	protected int framSize;
+	protected int frameSize;
 	
 	public Code(StoneVM stoneVm) {
 		svm = stoneVm;

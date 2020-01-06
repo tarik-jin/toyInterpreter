@@ -17,7 +17,7 @@ public class NativeFunction {
 	@Override public String toString() {
 		return "<native:" + hashCode() + ">";
 	}
-	public int numofParameters() {
+	public int numOfParameters() {
 		return numParams;
 	}
 	public Object invoke(Object[] args, ASTree tree) {

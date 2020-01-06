@@ -30,7 +30,7 @@ public class StoneVM {
 		registers = new Object[NUM_OF_REG];
 		heap = hm;
 	}
-	public Object gerReg(int i) {
+	public Object getReg(int i) {
 		return registers[i];
 	}
 	public void setReg(int i, Object value) {
@@ -102,6 +102,7 @@ public class StoneVM {
 				break;
 			case RESTORE:
 				restoreRegisters();
+				break;
 			case NEG: {
 				int reg = decodeRegister(code[pc + 1]);
 				Object v = registers[reg];
@@ -163,7 +164,7 @@ public class StoneVM {
 			pc = ((VmFunction)value).entry();
 		}
 		else if(value instanceof NativeFunction &&
-				((NativeFunction)value).numofParameters() == numOfArgs){
+				((NativeFunction)value).numOfParameters() == numOfArgs){
 			Object[] args = new Object[numOfArgs];
 			for(int i = 0; i < numOfArgs; i++) {
 				args[i] = stack[sp + i];
@@ -264,28 +265,4 @@ public class StoneVM {
 	public static int readShort(byte[] array, int index) {
 		return (array[index] << 8) | (array[index + 1] & 0xff);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

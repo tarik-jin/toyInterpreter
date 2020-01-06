@@ -10,6 +10,7 @@ import javassist.gluonj.Require;
 import javassist.gluonj.Reviser;
 import stone.StoneException;
 import stone.Token;
+import stone.ast.ASTList;
 import stone.ast.ASTree;
 import stone.ast.Arguments;
 import stone.ast.BinaryExpr;
@@ -25,19 +26,23 @@ import stone.ast.WhileStmnt;
 import static chap13.Opcode.*;
 import static javassist.gluonj.GluonJ.revise;
 
-@Require(Environment.class)
+@Require(EnvOptimizer.class)
 @Reviser public class VmEvaluator {
 	@Reviser public static interface EnvEx3 extends EnvOptimizer.EnvEx2{
 		StoneVM stoneVM();
 		Code code();
 	}
 	@Reviser public static abstract class ASTreeVmEx extends ASTree{
-		
-		public ASTreeVmEx() {
-			super();
+			public void compile(Code c) {
+				
+			}
+	}
+	@Reviser public static class ASTListEx extends ASTList{
+
+		public ASTListEx(List<ASTree> list) {
+			super(list);
 			// TODO Auto-generated constructor stub
 		}
-
 		public void compile(Code c) {
 			for(ASTree t: this) {
 				((ASTreeVmEx)t).compile(c);
@@ -64,7 +69,7 @@ import static javassist.gluonj.GluonJ.revise;
 		}
 		public void compile(Code c) {
 			c.nextReg = 0;
-			c.framSize = size + StoneVM.SAVE_AREA_SIZE;
+			c.frameSize = size + StoneVM.SAVE_AREA_SIZE;
 			c.add(SAVE);
 			c.add(encodeOffset(size));
 			((ASTreeVmEx)revise(body())).compile(c);
@@ -239,20 +244,20 @@ import static javassist.gluonj.GluonJ.revise;
 			// TODO Auto-generated constructor stub
 		}
 		public void compile(Code c) {
-			int newOffset = c.framSize;
-			int numofArgs = 0;
+			int newOffset = c.frameSize;
+			int numOfArgs = 0;
 			for(ASTree a: this) {
 				((ASTreeVmEx)a).compile(c);
 				c.add(MOVE);
 				c.add(encodeRegister(--c.nextReg));
 				c.add(encodeOffset(newOffset++));
-				numofArgs++;
+				numOfArgs++;
 			}
 			c.add(CALL);
 			c.add(encodeRegister(--c.nextReg));
-			c.add(encodeOffset(numofArgs));
+			c.add(encodeOffset(numOfArgs));
 			c.add(MOVE);
-			c.add(encodeOffset(c.framSize));
+			c.add(encodeOffset(c.frameSize));
 			c.add(encodeRegister(c.nextReg++));
 		}
 		public Object eval(Environment env, Object value) {

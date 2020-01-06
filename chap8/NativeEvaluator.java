@@ -24,7 +24,7 @@ import stone.ast.ASTree;
 			}
 			else {
 				NativeFunction func = (NativeFunction)value;
-				int nparams = func.numofParameters();
+				int nparams = func.numOfParameters();
 				if(size() != nparams) {
 					throw new StoneException("bad number of arguments", this);
 				}
